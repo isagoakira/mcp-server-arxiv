@@ -1,22 +1,26 @@
 [project]
 name = "mcp-server-arxiv"
-version = "0.1.0"
+version = "0.2.0"
 description = "MCP server for arXiv paper search and summarization"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.10"
 authors = [
-    {name = "isago", email = "isago@example.com"}
+    {name = "isagoakira"}
 ]
-keywords = ["mcp", "arxiv", "ai-agent", "research", "paper"]
+keywords = ["mcp", "arxiv", "ai-agent", "research", "paper", "llm"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
 ]
+urls = {Homepage = "https://github.com/isagoakira/mcp-server-arxiv", Source = "https://github.com/isagoakira/mcp-server-arxiv", Tracker = "https://github.com/isagoakira/mcp-server-arxiv/issues"}
 
 dependencies = [
     "mcp[cli]>=1.0.0",

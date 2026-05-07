@@ -1,8 +1,10 @@
 """PDF text extraction using PyMuPDF."""
+
 from typing import Optional
 
 try:
     import fitz  # PyMuPDF
+
     PYMUPDF_AVAILABLE = True
 except ImportError:
     PYMUPDF_AVAILABLE = False

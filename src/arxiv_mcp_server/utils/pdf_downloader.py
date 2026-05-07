@@ -1,4 +1,6 @@
 """PDF downloader for arXiv papers."""
+
+import atexit
 import os
 from typing import Optional
 
@@ -16,7 +18,7 @@ class PDFDownloader:
             self._client = httpx.AsyncClient(
                 timeout=60.0,
                 follow_redirects=True,
-                headers={"User-Agent": "mcp-server-arxiv/0.1 (mailto:isago@example.com)"},
+                headers={"User-Agent": "mcp-server-arxiv/0.2 (mailto:isago@example.com)"},
             )
         return self._client
 
@@ -41,6 +43,7 @@ class PDFDownloader:
         with open(cache_path, "wb") as f:
             f.write(response.content)
 
+        _downloaded_pdfs.add(cache_path)
         return cache_path
 
     async def close(self):
@@ -51,6 +54,22 @@ class PDFDownloader:
 
 # Global instance
 _downloader: Optional[PDFDownloader] = None
+
+# Track cached PDFs for cleanup
+_downloaded_pdfs: set = set()
+
+
+def _cleanup_temp_pdfs():
+    """Remove cached PDFs from /tmp/ on process exit."""
+    for path in list(_downloaded_pdfs):
+        try:
+            if os.path.exists(path):
+                os.remove(path)
+        except OSError:
+            pass
+
+
+atexit.register(_cleanup_temp_pdfs)
 
 
 def get_downloader() -> PDFDownloader:

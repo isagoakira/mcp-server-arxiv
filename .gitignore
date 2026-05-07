@@ -1,20 +1,50 @@
+# Python
 __pycache__/
 *.pyc
-.pytest_cache/
-.coverage
-*.egg-info/
+*.pyo
+*.so
+
+# Build artifacts
 build/
 dist/
+*.egg-info/
 .eggs/
-*.so
-.DS_Store
-.ruff_cache/
 *.whl
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Linters & tools
+.ruff_cache/
 .mypy_cache/
 .tox/
+
+# Environment (API keys, secrets)
 .env
 .env.local
-.claude/
-.mcp.json
-download/
 .venv/
+
+# macOS
+.DS_Store
+
+# Project metadata / harness (dev artifacts, not project deliverables)
+.claude/
+dev-plan.md
+main-log.md
+lessons-learned.md
+TODO.md
+
+# Personal notes / specs (contains local system paths)
+arXiv-MCP-Server-项目实施手册.md
+
+# MCP config (contains local paths)
+.mcp.json
+
+# Downloaded content
+download/
+
+# Logs
+*.log

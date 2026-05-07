@@ -3,6 +3,7 @@
 Run with: pytest tests/ -v -m integration
 These tests are SKIPPED by default.
 """
+
 import asyncio
 import json
 import sys
@@ -15,7 +16,9 @@ async def start_server():
     venv_python = sys.executable
 
     proc = await asyncio.create_subprocess_exec(
-        venv_python, "-m", "arxiv_mcp_server",
+        venv_python,
+        "-m",
+        "arxiv_mcp_server",
         stdin=asyncio.subprocess.PIPE,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
@@ -101,7 +104,9 @@ async def test_server_starts_without_crash():
     venv_python = sys.executable
 
     proc = await asyncio.create_subprocess_exec(
-        venv_python, "-m", "arxiv_mcp_server",
+        venv_python,
+        "-m",
+        "arxiv_mcp_server",
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )

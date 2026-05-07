@@ -1,4 +1,5 @@
 """Pytest fixtures for arxiv_mcp_server tests."""
+
 import pytest
 
 from arxiv_mcp_server.utils.arxiv_api import ArxivClient

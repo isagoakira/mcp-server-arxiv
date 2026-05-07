@@ -1,4 +1,5 @@
 """LLM summarizer with multi-backend support."""
+
 import os
 from typing import Optional
 
@@ -18,6 +19,7 @@ class Summarizer:
         if self._anthropic_client is None:
             try:
                 from anthropic import Anthropic
+
                 api_key = os.environ.get("ANTHROPIC_API_KEY")
                 if not api_key:
                     raise ValueError("ANTHROPIC_API_KEY not set")
@@ -46,9 +48,7 @@ class Summarizer:
         try:
             client = self._get_anthropic_client()
             message = client.messages.create(
-                model=model,
-                max_tokens=1024,
-                messages=[{"role": "user", "content": prompt}]
+                model=model, max_tokens=1024, messages=[{"role": "user", "content": prompt}]
             )
             return message.content[0].text
         except Exception as e:

@@ -25,21 +25,24 @@ pip install mcp-server-arxiv
 
 ```bash
 git clone https://github.com/isagoakira/mcp-server-arxiv.git
+cd mcp-server-arxiv
 
-## Quick Start
-
-```bash
-# Activate virtual environment
+# Create virtual environment
+python3 -m venv .venv
 source .venv/bin/activate  # macOS/Linux
 
-# Run MCP server (stdio mode — start from Claude Code)
+# Install with all optional dependencies
+pip install -e ".[pdf,anthropic,dev]"
+
+# Run MCP server (stdio mode)
 python -m arxiv_mcp_server
 
 # Run tests
 pytest tests/ -v
 
-# Lint
+# Lint and format
 ruff check src/ tests/
+ruff format src/ tests/
 ```
 
 ## Claude Code Setup
