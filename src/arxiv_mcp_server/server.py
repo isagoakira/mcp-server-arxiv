@@ -15,7 +15,7 @@ from .tools.paper import (
 )
 from .tools.summarize import register_tools as register_summarize_tools
 from .tools.search import build_search_query, format_search_results_paginated
-from .utils.arxiv_api import ArxivClient
+from .utils.arxiv_api import get_client, close_client
 
 logger = structlog.get_logger(__name__)
 
@@ -23,13 +23,12 @@ logger = structlog.get_logger(__name__)
 @asynccontextmanager
 async def app_lifespan(server):
     """Manage ArxivClient lifecycle via FastMCP lifespan."""
-    client = ArxivClient()
     try:
         logger.info("arxiv_mcp_server_starting")
-        yield {"client": client}
+        yield
     finally:
         logger.info("arxiv_mcp_server_shutting_down")
-        await client.close()
+        await close_client()
 
 
 # Create FastMCP server instance
@@ -60,14 +59,12 @@ async def get_paper_resource(paper_id: str) -> str:
     Raises:
         ValueError: If the paper is not found.
     """
-    client = ArxivClient()
+    client = await get_client()
     try:
         paper = await client.get_paper(normalize_paper_id(paper_id))
         if not paper:
             raise ValueError(f"Paper '{paper_id}' not found.")
         return format_paper_details(paper)
-    finally:
-        await client.close()
 
 
 @mcp.resource("arxiv://search/{query}")
@@ -83,15 +80,13 @@ async def search_resource(query: str) -> str:
     Returns:
         str: Markdown-formatted search results with pagination metadata.
     """
-    client = ArxivClient()
+    client = await get_client()
     try:
         papers, total = await client.search(
             query=build_search_query("all", query),
             max_results=10,
         )
         return format_search_results_paginated(papers, total)
-    finally:
-        await client.close()
 
 
 # ---- Entry points (P3: Streamable HTTP support) ----

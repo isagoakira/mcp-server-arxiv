@@ -4,7 +4,7 @@ from mcp.server.fastmcp import Context
 from mcp.types import ToolAnnotations
 
 from ..models import ArxivSearchInput, SearchResult, PaperResult
-from ..utils.arxiv_api import ArxivClient
+from ..utils.arxiv_api import ArxivClient, get_client
 
 # Field prefix mapping for arXiv API
 FIELD_MAPPING = {"all": "all", "title": "ti", "abstract": "abs", "author": "au"}
@@ -223,7 +223,7 @@ def register_tools(mcp):
         Returns:
             str: Markdown or JSON formatted search results.
         """
-        client = ctx.request_context.lifespan_context["client"]
+        client = await get_client()
         return await arxiv_search(
             client=client,
             query=params.query,

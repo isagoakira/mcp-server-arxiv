@@ -6,7 +6,7 @@ from mcp.server.fastmcp import Context
 from mcp.types import ToolAnnotations
 
 from ..models import ArxivSummarizeInput, SummarizeResult
-from ..utils.arxiv_api import ArxivClient
+from ..utils.arxiv_api import ArxivClient, get_client
 from ..utils.pdf_downloader import get_downloader
 from ..utils.pdf_extractor import get_extractor
 from ..utils.summarizer import get_summarizer, Summarizer
@@ -160,7 +160,7 @@ def register_tools(mcp):
         Returns:
             str: Markdown or JSON formatted summary.
         """
-        client = ctx.request_context.lifespan_context["client"]
+        client = await get_client()
 
         await ctx.log_info(
             "summarize_started",

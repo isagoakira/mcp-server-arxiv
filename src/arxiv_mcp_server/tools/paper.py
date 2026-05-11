@@ -6,7 +6,7 @@ from mcp.server.fastmcp import Context
 from mcp.types import ToolAnnotations
 
 from ..models import ArxivPaperInput, PaperResult
-from ..utils.arxiv_api import ArxivClient
+from ..utils.arxiv_api import ArxivClient, get_client
 
 
 def normalize_paper_id(paper_id: str) -> str:
@@ -173,7 +173,7 @@ def register_tools(mcp):
         Returns:
             str: Markdown or JSON formatted paper details.
         """
-        client = ctx.request_context.lifespan_context["client"]
+        client = await get_client()
         return await arxiv_get_paper(
             client=client,
             paper_id=params.paper_id,

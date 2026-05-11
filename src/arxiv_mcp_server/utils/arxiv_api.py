@@ -14,6 +14,26 @@ logger = structlog.get_logger(__name__)
 ARXIV_API = "http://export.arxiv.org/api/query"
 RATE_LIMIT_SECONDS = 5.0
 
+# Module-level client singleton — avoids dependency on MCP lifespan_context
+# which breaks across MCP SDK versions (e.g., RequestContext.lifespan_state missing).
+_client: Optional["ArxivClient"] = None
+
+
+async def get_client() -> "ArxivClient":
+    """Return a module-level ArxivClient singleton, creating it lazily."""
+    global _client
+    if _client is None:
+        _client = ArxivClient()
+    return _client
+
+
+async def close_client():
+    """Close and release the module-level client singleton."""
+    global _client
+    if _client is not None:
+        await _client.close()
+        _client = None
+
 # arXiv ID validation pattern
 _ARXIV_ID_PATTERN = re.compile(r'^[\w.-]+/?(?!.*[<>"\'\x60;|&$()])[\w.-]*$')
 
