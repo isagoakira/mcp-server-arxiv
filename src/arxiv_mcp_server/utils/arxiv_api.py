@@ -11,7 +11,7 @@ from .rate_limiter import RateLimiter
 
 logger = structlog.get_logger(__name__)
 
-ARXIV_API = "http://export.arxiv.org/api/query"
+ARXIV_API = "https://export.arxiv.org/api/query"
 RATE_LIMIT_SECONDS = 5.0
 
 # Module-level client singleton — avoids dependency on MCP lifespan_context
@@ -79,7 +79,7 @@ class ArxivClient:
             self._client = httpx.AsyncClient(
                 timeout=30.0,
                 follow_redirects=True,
-                headers={"User-Agent": "mcp-server-arxiv/0.2 (mailto:isago@example.com)"},
+                headers={"User-Agent": "arxiv-mcp-server/1.0 (https://github.com/anthropics/arxiv-mcp-server)"},
             )
         return self._client
 

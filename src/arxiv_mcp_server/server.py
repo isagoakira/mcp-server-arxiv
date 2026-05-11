@@ -65,6 +65,9 @@ async def get_paper_resource(paper_id: str) -> str:
         if not paper:
             raise ValueError(f"Paper '{paper_id}' not found.")
         return format_paper_details(paper)
+    except Exception:
+        logger.exception("Failed to get paper", paper_id=paper_id)
+        raise
 
 
 @mcp.resource("arxiv://search/{query}")
@@ -87,6 +90,9 @@ async def search_resource(query: str) -> str:
             max_results=10,
         )
         return format_search_results_paginated(papers, total)
+    except Exception:
+        logger.exception("Failed to search", query=query)
+        raise
 
 
 # ---- Entry points (P3: Streamable HTTP support) ----
