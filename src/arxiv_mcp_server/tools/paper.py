@@ -173,7 +173,7 @@ def register_tools(mcp):
         Returns:
             str: Markdown or JSON formatted paper details.
         """
-        client = ctx.request_context.lifespan_state["client"]
+        client = ctx.request_context.lifespan_context["client"]
         return await arxiv_get_paper(
             client=client,
             paper_id=params.paper_id,

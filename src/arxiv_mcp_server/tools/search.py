@@ -223,7 +223,7 @@ def register_tools(mcp):
         Returns:
             str: Markdown or JSON formatted search results.
         """
-        client = ctx.request_context.lifespan_state["client"]
+        client = ctx.request_context.lifespan_context["client"]
         return await arxiv_search(
             client=client,
             query=params.query,

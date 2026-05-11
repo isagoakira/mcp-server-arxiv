@@ -160,7 +160,7 @@ def register_tools(mcp):
         Returns:
             str: Markdown or JSON formatted summary.
         """
-        client = ctx.request_context.lifespan_state["client"]
+        client = ctx.request_context.lifespan_context["client"]
 
         await ctx.log_info(
             "summarize_started",
